@@ -5,9 +5,26 @@
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
     <title>SANTA1.0</title>
 
-    <link rel="icon" href="/assets/img/kaiadmin/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/assets/img/santa/santaLogo.png" type="image/x-icon" />
     <!-- Fonts and icons -->
     <script src="/assets/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+        WebFont.load({
+            google: {families: ["Public Sans:300,400,500,600,700"]},
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["/assets/css/fonts.min.css"],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
@@ -25,26 +42,15 @@
 
                 <!-- Logo image -->
                 <!-- login ok -->
-                <a href="/product/productStatus" class="logo">
+                <a href="/home" class="logo">
                     <img
                             src="/assets/img/santa/santaLogo.png"
                             alt="navbar brand"
                             class="navbar-brand"
                             height="50"
                     />
-                    <span >SANTA1.0</span>
+                    <span class="text-white fs-4" >SANTA1.0</span>
                 </a>
-                <!-- login no -->
-<!--                <a href="/member/login" class="logo">-->
-<!--                    <img-->
-<!--                            src="/assets/img/santa/santaLogo.png"-->
-<!--                            alt="navbar brand"-->
-<!--                            class="navbar-brand"-->
-<!--                            height="50"-->
-<!--                    />-->
-<!--                    <span >SANTA1.0</span>-->
-<!--                </a>-->
-
 
                 <!-- toggle -->
                 <div class="nav-toggle">
@@ -66,13 +72,23 @@
         <div class="sidebar-wrapper scrollbar scrollbar-inner">
             <div class="sidebar-content">
                 <ul class="nav nav-secondary">
-
+                    <li class="nav-item">
+                        <a
+                                href="/home"
+                                class="collapsed"
+                                aria-expanded="false"
+                        >
+                            <i class="fas fa-home"></i>
+                            <p>Home</p>
+                        </a>
+                    </li>
                     <li class="nav-section">
                         <span class="sidebar-mini-icon">
                             <i class="fa fa-ellipsis-h"></i>
                         </span>
                         <h4 class="text-section">메뉴</h4>
                     </li>
+
                     <!-- Menu1 -->
                     <li class="nav-item">
                         <a data-bs-toggle="collapse" href="#products">
@@ -81,20 +97,26 @@
                             <span class="caret"></span>
                         </a>
                         <div class="collapse" id="products">
-                            <ul class="nav nav-collapse">
+                            <ul class="nav nav-collapse ">
                                 <li>
-                                    <a href="/product/productStatus">
-                                        <span class="sub-item">창고 재고 현황</span>
+                                    <a class="sidebar-link" href="/inventory/warehouseManagement">
+                                        <span class="sub-item">창고별 재고 관리</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="">
-                                        <span class="sub-item">창고 재고 통계</span>
+                                    <a class="sidebar-link" href="/inventory/categoryManagement">
+                                        <span class="sub-item">품목별 재고 관리</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="sidebar-link" href="/inventory/historyManagement">
+                                        <span class="sub-item">재고 이력 관리</span>
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </li>
+
                     <!-- Menu2 -->
                     <li class="nav-item">
                         <a data-bs-toggle="collapse" href="#inOut">
@@ -105,33 +127,18 @@
                         <div class="collapse" id="inOut">
                             <ul class="nav nav-collapse">
                                 <li>
-                                    <a href="">
-                                        <span class="sub-item">입고 등록</span>
+                                    <a class="sidebar-link" href="/incoming/incomingRead">
+                                        <span class="sub-item">입고 조회</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="">
-                                        <span class="sub-item">입고 수정/삭제</span>
+                                    <a class="sidebar-link" href="/outgoing/outgoingRead">
+                                        <span class="sub-item">출고 조회</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="">
-                                        <span class="sub-item">입고 통계</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="sub-item">출고 확정</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="sub-item">개별 출고 등록</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="sub-item">출고 통계</span>
+                                    <a class="sidebar-link" href="/outgoing/outgoingApprove">
+                                        <span class="sub-item">출고 승인</span>
                                     </a>
                                 </li>
                             </ul>
@@ -148,125 +155,44 @@
                         <div class="collapse" id="orders">
                             <ul class="nav nav-collapse">
                                 <li>
-                                    <a href="">
-                                        <span class="sub-item">Basic Form</span>
+                                    <a class="sidebar-link" href="/order/status">
+                                        <span class="sub-item">주문 현황</span>
                                     </a>
                                 </li>
+                                <li>
+                                    <a class="sidebar-link" href="/order/details">
+                                        <span class="sub-item">주문 상세 관리</span>
+                                    </a>
+                                </li>
+
                             </ul>
                         </div>
                     </li>
 
                     <!-- Menu4 -->
-<!--                    <li class="nav-item">-->
-<!--                        <a data-bs-toggle="collapse" href="#">-->
-<!--                            <i class="fas fa-pen-square"></i>-->
-<!--                            <p>발주 관리</p>-->
-<!--                            <span class="caret"></span>-->
-<!--                        </a>-->
-<!--                        <div class="collapse" id="forms">-->
-<!--                            <ul class="nav nav-collapse">-->
-<!--                                <li>-->
-<!--                                    <a href="">-->
-<!--                                        <span class="sub-item">발주 현황 조회</span>-->
-<!--                                    </a>-->
-<!--                                </li>-->
-<!--                            </ul>-->
-<!--                        </div>-->
-<!--                    </li>-->
-
-                    <!-- Menu5 -->
                     <li class="nav-item">
-                        <a data-bs-toggle="collapse" href="#shipment">
+                        <a data-bs-toggle="collapse" href="#transit">
                             <i class="fas fa-truck"></i>
                             <p>배송 관리</p>
                             <span class="caret"></span>
                         </a>
-                        <div class="collapse" id="shipment">
+                        <div class="collapse" id="transit">
                             <ul class="nav nav-collapse">
                                 <li>
-                                    <a href="">
-                                        <span class="sub-item">Basic Table</span>
+                                    <a class="sidebar-link" href="/transit/transitRead">
+                                        <span class="sub-item">배송 조회</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="">
-                                        <span class="sub-item">Datatables</span>
+                                    <a class="sidebar-link" href="/transit/transitApprove">
+                                        <span class="sub-item">배송 승인</span>
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </li>
 
-                    <!-- Menu6 -->
-                    <li class="nav-item">
-                        <a data-bs-toggle="collapse" href="#warehouse">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <p>창고 간 이동</p>
-                            <span class="caret"></span>
-                        </a>
-                        <div class="collapse" id="warehouse">
-                            <ul class="nav nav-collapse">
-                                <li>
-                                    <a href="">
-                                        <span class="sub-item">Google Maps</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="sub-item">Jsvectormap</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <!-- Menu7 -->
-                    <li class="nav-item">
-                        <a data-bs-toggle="collapse" href="#employee">
-                            <i class="fas fa-users"></i>
-                            <p>직원 관리</p>
-                            <span class="caret"></span>
-                        </a>
-                        <div class="collapse" id="employee">
-                            <ul class="nav nav-collapse">
-                                <li>
-                                    <a href="">
-                                        <span class="sub-item">Chart Js</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="sub-item">Sparkline</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <!-- Menu8 -->
-                    <li class="nav-item">
-                        <a data-bs-toggle="collapse" href="#log">
-                            <i class="far fa-file-alt"></i>
-                            <p>로그 관리</p>
-                            <span class="caret"></span>
-                        </a>
-                        <div class="collapse" id="log">
-                            <ul class="nav nav-collapse">
-                                <li>
-                                    <a href="">
-                                        <span class="sub-item">Chart Js</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="sub-item">Sparkline</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <!-- Menu9 -->
+                    <!-- Menu5 -->
                     <li class="nav-item">
                         <a data-bs-toggle="collapse" href="#board">
                             <i class="fas fa-edit"></i>
@@ -276,13 +202,81 @@
                         <div class="collapse" id="board">
                             <ul class="nav nav-collapse">
                                 <li>
-                                    <a href="">
+                                    <a class="sidebar-link" href="">
                                         <span class="sub-item">게시판</span>
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </li>
+
+                    <!-- Menu6 -->
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#dash">
+                            <i class="fas fa-chart-bar"></i>
+                            <p>대시보드</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="dash">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a class="sidebar-link" href="">
+                                        <span class="sub-item">전체 통계</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="sidebar-link" href="/inventory/statistics">
+                                        <span class="sub-item">창고 재고 통계</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="sidebar-link" href="/incoming/statistics">
+                                        <span class="sub-item">입고 통계</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="sidebar-link" href="/outgoing/statistics">
+                                        <span class="sub-item">출고 통계</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="sidebar-link" href="/order/statistics">
+                                        <span class="sub-item">주문 통계</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="sidebar-link" href="">
+                                        <span class="sub-item">배송 통계</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Menu7 -->
+                    <!-- 권한이 root 관리자 일 시 보이는 menu -->
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#employee">
+                            <i class="fas fa-users"></i>
+                            <p>관리자 메뉴</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="employee">
+                            <ul class="nav nav-collapse subnav">
+                                <li>
+                                    <a class="sidebar-link" href="">
+                                        <span class="sub-item">직원 관리</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="sidebar-link" href="">
+                                        <span class="sub-item">로그 관리</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- end -->
                 </ul>
             </div>
         </div>
@@ -296,9 +290,9 @@
                 <!-- Logo Header -->
                 <!-- 화면 크기 줄어들었을 시의 Header -->
                 <div class="logo-header" data-background-color="red">
-                    <a href="/member/login" class="logo">
+                    <a href="/home" class="logo">
                         <img
-                                src="/assets/img/kaiadmin/logo_light.svg"
+                                src="/assets/img/santa/santaLogo.png"
                                 alt="navbar brand"
                                 class="navbar-brand"
                                 height="20"
@@ -369,109 +363,7 @@
                             </ul>
                         </li>
 
-                        <!-- 메세지 : 시간 남으면 구현(보류) -->
-<!--                        <li class="nav-item topbar-icon dropdown hidden-caret">-->
-<!--                            <a-->
-<!--                                    class="nav-link dropdown-toggle"-->
-<!--                                    href="#"-->
-<!--                                    id="messageDropdown"-->
-<!--                                    role="button"-->
-<!--                                    data-bs-toggle="dropdown"-->
-<!--                                    aria-haspopup="true"-->
-<!--                                    aria-expanded="false"-->
-<!--                            >-->
-<!--                                <i class="fa fa-envelope"></i>-->
-<!--                            </a>-->
-<!--                            <ul-->
-<!--                                    class="dropdown-menu messages-notif-box animated fadeIn"-->
-<!--                                    aria-labelledby="messageDropdown"-->
-<!--                            >-->
-<!--                                <li>-->
-<!--                                    <div-->
-<!--                                            class="dropdown-title d-flex justify-content-between align-items-center"-->
-<!--                                    >-->
-<!--                                        Messages-->
-<!--                                        <a href="#" class="small">Mark all as read</a>-->
-<!--                                    </div>-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    <div class="message-notif-scroll scrollbar-outer">-->
-<!--                                        <div class="notif-center">-->
-<!--                                            &lt;!&ndash; 메세지 th:each로 반복문 &ndash;&gt;-->
-<!--                                            <a href="#">-->
-<!--                                                <div class="notif-img">-->
-<!--                                                    <img-->
-<!--                                                            src="/assets/img/mlane.jpg"-->
-<!--                                                            alt="Img Profile"-->
-<!--                                                    />-->
-<!--                                                </div>-->
-<!--                                                <div class="notif-content">-->
-<!--                                                    <span class="subject">Jhon Doe</span>-->
-<!--                                                    <span class="block">오늘 미팅 준비 더ㅗ</span>-->
-<!--                                                    <span class="time">12 minutes ago</span>-->
-<!--                                                </div>-->
-<!--                                            </a>-->
-
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    <a class="see-all" href="javascript:void(0);"-->
-<!--                                    >See all messages<i class="fa fa-angle-right"></i>-->
-<!--                                    </a>-->
-<!--                                </li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
-
-                        <!-- 알람 : 시간 남으면 구현(보류) -->
-<!--                        <li class="nav-item topbar-icon dropdown hidden-caret">-->
-<!--                            <a-->
-<!--                                    class="nav-link dropdown-toggle"-->
-<!--                                    href="#"-->
-<!--                                    id="notifDropdown"-->
-<!--                                    role="button"-->
-<!--                                    data-bs-toggle="dropdown"-->
-<!--                                    aria-haspopup="true"-->
-<!--                                    aria-expanded="false"-->
-<!--                            >-->
-<!--                                <i class="fa fa-bell"></i>-->
-<!--                                <span class="notification">4</span>-->
-<!--                            </a>-->
-<!--                            <ul-->
-<!--                                    class="dropdown-menu notif-box animated fadeIn"-->
-<!--                                    aria-labelledby="notifDropdown"-->
-<!--                            >-->
-<!--                                &lt;!&ndash; 알람 몇갠지 &ndash;&gt;-->
-<!--                                <li>-->
-<!--                                    <div class="dropdown-title">-->
-<!--                                        You have 1 new notification-->
-<!--                                    </div>-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    <div class="notif-scroll scrollbar-outer">-->
-<!--                                        <div class="notif-center">-->
-
-<!--                                            &lt;!&ndash; 알람 th:each로  반복문 &ndash;&gt;-->
-<!--                                            <a href="#">-->
-<!--                                                <div class="notif-icon notif-danger">-->
-<!--                                                    <i class="fa fa-heart"></i>-->
-<!--                                                </div>-->
-<!--                                                <div class="notif-content">-->
-<!--                                                    <span class="block"> Farrah liked Admin </span>-->
-<!--                                                    <span class="time">17 minutes ago</span>-->
-<!--                                                </div>-->
-<!--                                            </a>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </li>-->
-<!--                                &lt;!&ndash; 모든 알람 보기 &ndash;&gt;-->
-<!--                                <li>-->
-<!--                                    <a class="see-all" href="javascript:void(0);"-->
-<!--                                    >See all notifications<i class="fa fa-angle-right"></i>-->
-<!--                                    </a>-->
-<!--                                </li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
+                       <!-- 알람 메세지 기능 코드 넣는 곳 (시간 남으면 구현할 것 ) -->
 
                         <!-- 빠른 이동 -->
                         <li class="nav-item topbar-icon dropdown hidden-caret">
@@ -556,19 +448,32 @@
 
                         <!-- 로그인 시 바뀜 -->
                         <!-- *************************************** Start Login *************************************** -->
-                        <li class="nav-item topbar-user dropdown hidden-caret">
-                            <!-- login no -->
-                            <a class="nav-link" href="/member/login">
-                                <span>로그인</span>
+                        <!-- 로그인 여부에 따라 표시 -->
+                        <li class="nav-item topbar-user dropdown hidden-caret" id="user-info" style="display: none;">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <img src="/assets/img/user/IMG_1131.JPG" alt="User Avatar" class="rounded-circle" height="30" />
+                                <span id="username" class="ms-2" style="font-weight: bold; font-size: 1.2rem;">사용자 이름</span>
                             </a>
-
-                            <!-- login ok -->
-                            <!--
-                            <a class="nav-link" href="/member/logout">
-                                <span>로그아웃</span>
-                            </a>
-                            -->
+                            <ul class="dropdown-menu dropdown-user animated fadeIn">
+                                <li>
+                                    <a class="dropdown-item" href="/profile">
+                                        <i class="fas fa-user"></i> 프로필
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" id="logout" href="#">
+                                        <i class="fas fa-sign-out-alt"></i> 로그아웃
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
+
+                        <!-- 로그인 버튼 -->
+<!--                        <li class="nav-item topbar-user hidden-caret" id="login-button" style="display: flex;">-->
+<!--                            <a class="nav-link" href="/login">-->
+<!--                                <span>로그인</span>-->
+<!--                            </a>-->
+<!--                        </li>-->
                         <!-- *************************************** End Login *************************************** -->
 
                     </ul>
@@ -605,7 +510,7 @@
                     </ul>
                 </nav>
                 <div class="copyright">
-                    2024, made with by SANTA</a>
+                    2025, made with by SANTA</a>
                 </div>
             </div>
         </footer>
@@ -625,21 +530,11 @@
 <!-- jQuery Scrollbar -->
 <script src="/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
-<!-- Chart JS -->
-<script src="/assets/js/plugin/chart.js/chart.min.js"></script>
-
-<!-- Chart Circle -->
-<script src="/assets/js/plugin/chart-circle/circles.min.js"></script>
-
 <!-- Datatables -->
 <script src="/assets/js/plugin/datatables/datatables.min.js"></script>
 
 <!-- Bootstrap Notify -->
 <script src="/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-
-<!-- jQuery Vector Maps -->
-<script src="/assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-<script src="/assets/js/plugin/jsvectormap/world.js"></script>
 
 <!-- Sweet Alert -->
 <script src="/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
@@ -647,29 +542,76 @@
 <!-- Kaiadmin JS -->
 <script src="/assets/js/kaiadmin.min.js"></script>
 
-<!-- Kaiadmin DEMO methods, don't include it in your project! -->
-<script src="/assets/js/setting-demo.js"></script>
-<script src="/assets/js/demo.js"></script>
+<script>
+        const userInfoElement = document.getElementById('user-info');
+        const usernameElement = document.getElementById('username');
+        const loginButtonElement = document.getElementById('login-button');
+        const logoutButtonElement = document.getElementById('logout');
+
+        // 사용자 정보를 가져오는 API 호출
+        axios.get('/api/login/user')
+            .then(response => {
+                const user = response.data;
+
+                // 사용자 정보 표시
+                userInfoElement.style.display = 'flex';
+                usernameElement.innerText = user.name; // 사용자 이름 설정
+
+                // 로그인 버튼 숨기기
+                loginButtonElement.style.display = 'none';
+            })
+            .catch(error => {
+                console.error("사용자 정보를 가져오지 못했습니다:", error);
+
+                // 로그인 버튼 표시
+                loginButtonElement.style.display = 'flex';
+                userInfoElement.style.display = 'none';
+            });
+
+        // 로그아웃 처리
+        if (logoutButtonElement) {
+            logoutButtonElement.addEventListener('click', function (e) {
+                e.preventDefault();
+                axios.post('/login/logout')
+                    .then(() => {
+                        // 서버 리다이렉트에 따라 페이지 이동
+                        window.location.href = "/login";
+                    })
+                    .catch(error => {
+                        console.error("로그아웃 실패:", error);
+                        alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
+                    });
+            });
+        };
+
+        //sidebar toggle func
+        function addSidebar() {
+            // 현재 URL 가져오기
+            const currentPath = location.pathname;
+
+            // 모든 사이드바 링크 가져오기
+            const sidebarLinks = document.querySelectorAll(".sidebar-link");
+
+            // 링크 중 현재 URL과 일치하는 항목에 'active' 추가
+            sidebarLinks.forEach(link => {
+                if (link.getAttribute("href") === currentPath) {
+                    link.classList.add("active");
+                    const parentCollapse = link.closest(".collapse");
+                    if (parentCollapse) {
+                        parentCollapse.classList.add("show"); // 부모 메뉴 펼치기
+                    }
+                }
+            });
+        };
+
+        addSidebar();
+
+
+</script>
 
 <!-- Core theme JS-->
 <th:block layout:fragment="script">
-    <script>
-        WebFont.load({
-            google: {families: ["Public Sans:300,400,500,600,700"]},
-            custom: {
-                families: [
-                    "Font Awesome 5 Solid",
-                    "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands",
-                    "simple-line-icons",
-                ],
-                urls: ["/assets/css/fonts.min.css"],
-            },
-            active: function () {
-                sessionStorage.fonts = true;
-            },
-        });
-    </script>
+
 </th:block>
 
 </body>

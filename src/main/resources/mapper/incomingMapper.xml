@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.santa.incoming.mapper.IncomingMapper">
+
+    <resultMap id="selectIncoming" type="com.example.santa.incoming.vo.IncomingDTO">
+        <result property="incomingDate" column="incoming_date"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="productName" column="product_name"/>
+        <result property="warehouseName" column="warehouse_name"/>
+        <result property="price" column="price"/>
+        <result property="quantity" column="quantity"/>
+    </resultMap>
+
+
+    <select id="selectAllIncomingByProductName" resultType="com.example.santa.incoming.vo.IncomingDTO"
+            resultMap="selectIncoming">
+        SELECT DATE_FORMAT(i.incoming_date, '%Y-%m-%d') AS incoming_date,
+               s.name AS supplier_name,
+               p.name AS product_name,
+               w.name AS warehouse_name,
+               p.price,
+               i.quantity
+        FROM incoming i
+                 JOIN products p ON i.product_id = p.product_id
+                 JOIN suppliers s ON i.supplier_id = s.supplier_id
+                 JOIN warehouses w ON i.warehouse_id = w.warehouse_id
+        WHERE p.name LIKE CONCAT('%', #{productName} , '%');
+    </select>
+
+    <select id="selectAllIncomingByIncomingDate" resultType="com.example.santa.incoming.vo.IncomingDTO">
+        SELECT I.incoming_date, P.name, P.price, I.quantity
+        FROM Incoming AS I JOIN Products AS P
+                                ON I.incoming_id = P.product_id
+        WHERE DATE(I.incoming_date) BETWEEN #{date1} AND #{date2};
+    </select>
+
+
+
+    <select id="selectAllIncoming" resultType="com.example.santa.incoming.vo.IncomingDTO"
+            resultMap="selectIncoming">
+
+        SELECT DATE_FORMAT(i.incoming_date, '%Y-%m-%d') AS incoming_date,
+               s.name AS supplier_name,
+               p.name AS product_name,
+               w.name AS warehouse_name,
+               p.price,
+               i.quantity
+        FROM incoming i
+                 JOIN products p ON i.product_id = p.product_id
+                 JOIN suppliers s ON i.supplier_id = s.supplier_id
+                 JOIN warehouses w ON i.warehouse_id = w.warehouse_id;
+    </select>
+</mapper>

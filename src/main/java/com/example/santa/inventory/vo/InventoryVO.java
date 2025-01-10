@@ -1,4 +1,4 @@
-package com.example.santa.product.vo;
+package com.example.santa.inventory.vo;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;
@@ -9,8 +9,7 @@ import lombok.Builder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductVO {
+public class InventoryVO {
 
     private int id;
-
 }

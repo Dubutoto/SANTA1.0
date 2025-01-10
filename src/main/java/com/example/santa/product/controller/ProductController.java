@@ -10,14 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/product")
 @RequiredArgsConstructor
-@Log4j2
 public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("productStatus")
-    public String product() {
-        return "/product/productStatus";
-    }
+
 
 }

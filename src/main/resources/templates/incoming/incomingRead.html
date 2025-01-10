@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<body>
+<div class="page-inner" layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">입/출고 관리</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="#">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">입/출고 관리</a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">입고 조회</a>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-success">
+                <div class="card-header bg-danger text-white text-center">
+                    <h4 class="card-title m-0">🎄 입고 조회 🎅</h4>
+                </div>
+                <div class="card-body bg-white">
+                    <!-- 필터 섹션 -->
+                    <div class="p-3 bg-light border rounded">
+                        <div class="row g-3">
+                            <!-- 입고일자 -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label for="start-date" class="form-label fw-bold text-success me-2 mb-0">입고일자</label>
+                                <input type="date" id="start-date" class="form-control w-25 me-2">
+                                <input type="date" id="end-date" class="form-control w-25 me-2">
+                                <button class="btn btn-danger">검색</button>
+                            </div>
+
+                            <!-- 상품명 -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label for="product-name" class="form-label fw-bold text-success me-2 mb-0">상품명</label>
+                                <input type="text" id="product-name" class="form-control w-75 me-2">
+                                <button class="btn btn-danger" onclick="readProduct()">검색</button>
+                            </div>
+
+                            <!-- 공급업체 -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label for="supplier" class="form-label fw-bold text-success me-2 mb-0">공급업체</label>
+                                <input type="text" id="supplier" class="form-control w-75 me-2">
+                                <button class="btn btn-danger">검색</button>
+                            </div>
+
+                            <!-- 창고 -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label for="warehouse" class="form-label fw-bold text-success me-2 mb-0">창고</label>
+                                <input type="text" id="warehouse" class="form-control w-75 me-2">
+                                <button class="btn btn-danger">검색</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table
+                                id="basic-datatables"
+                                class="display table table-striped table-hover"
+                        >
+                            <thead>
+                            <tr>
+                                <th>입고일자</th>
+                                <th>공급업체</th>
+                                <th>상품명</th>
+                                <th>창고</th>
+                                <th>수량</th>
+                                <th>가격</th>
+                                <th>총가격</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbody">
+                            <!-- 반복문 -->
+                            <tr th:each="IncomingDTO : ${list}">
+                                <td th:text="${IncomingDTO.incomingDate}" class="text-center"></td>
+                                <td th:text="${IncomingDTO.supplierName}" class="text-center"></td>
+                                <td th:text="${IncomingDTO.productName}"  class="text-center"></td>
+                                <td th:text="${IncomingDTO.warehouseName}"  class="text-center"></td>
+                                <td th:text="${IncomingDTO.quantity}"  class="text-center"></td>
+                                <td th:text="${IncomingDTO.price}"  class="text-center"></td>
+                                <td th:text="${IncomingDTO.price * IncomingDTO.quantity}"  class="text-center"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+</body>
+<th:block layout:fragment="script">
+    <script>
+        function readProduct() {
+            const productName = document.getElementById("product-name").value;
+            let tbody = document.getElementById("tbody");
+            axios.post("/incoming/readProduct", {
+                productName: productName
+            }).then(function (response) {
+                console.log(response.data);
+                let json_array = response.data; //[json, json, json]
+                console.log(json_array)
+                let body = "";
+                for (let i  = 0;  i< json_array.length; i++) {
+                    console.log(json_array[i]);
+                    let json = json_array[i];
+                    body = body + `
+                              <tr>
+                                <td class="text-center">${json.incomingDate}</td>
+                                <td class="text-center">${json.supplierName}</td>
+                                <td class="text-center">${json.productName}</td>
+                                <td class="text-center">${json.warehouseName}</td>
+                                <td class="text-center">${json.quantity}</td>
+                                <td class="text-center">${json.price}</td>
+                                <td class="text-center">${json.price * json.quantity}</td>
+                            </tr>
+                    `;
+                }
+
+                tbody.innerHTML = body;
+            })
+        }
+        //$(document).ready(function () {
+        $("#basic-datatables").DataTable({});
+        // });
+    </script>
+</th:block>
+</html>

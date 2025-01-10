@@ -1,6 +1,6 @@
 package com.example.santa.product.service;
 
-import com.example.santa.product.dao.ProductMapper;
+import com.example.santa.product.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
