@@ -5,18 +5,19 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
 tasks.withType(ProcessResources) {
     filteringCharset = 'UTF-8'
 }
@@ -34,93 +35,57 @@ tasks.withType(JavaExec) {
     jvmArgs '-Dfile.encoding=UTF-8'
 }
 
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    //************************************************************************
-    //  template engine-thymeleaf
-    //************************************************************************
-    // thymeleaf - http body에 결과를 넣어주기 위한 라이브러리
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.2.0'
-
-
-    //************************************************************************
-    //  spring boot core
-    //************************************************************************
+    // Spring Boot Core
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-    // 개발시에만 내장된 tomcat을 사용하고
-    // 배포시에는 외부 tomcat이 있어 배포파일은 war파일에는 포함시키지 않겠다는 의미
-    // 배포파일 war파일에 포함하고자 하는 경우 implementation으로 변경
 
-    // spring-boot-starter는
-    // implementation 'org.springframework.boot:spring-boot-starter-logging'를 포함함.
-    // slf4j의 구현체인 log-back을 사용함.
-    implementation 'org.springframework.boot:spring-boot-starter'
+    // Thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.2.0'
 
-    //************************************************************************
-    //  lombok-vo-log
-    //************************************************************************
     // Lombok
-    // vo(dto) 자동 생성 기능 + log를 위한 Log4J, Slf4j를 사용할 수 있게 함.
     implementation 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
-
-    //************************************************************************
-    //  spring security
-    //************************************************************************
-    // password암호화
-    // Spring Security의 Crypto 모듈
-    implementation 'org.springframework.boot:spring-boot-starter-security' // Spring Security 전체 의존성
-
-
-    //************************************************************************
-    //  db-mybatis-mysql-hikari
-    //************************************************************************
-    // db연결
-    implementation 'mysql:mysql-connector-java:8.0.33' // 최신 버전 사용
+    // Database
+    implementation 'mysql:mysql-connector-java:8.0.33'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.1'
-    // vo <--> json
-    //implementation 'org.modelmapper:modelmapper:3.1.0'
-    // validation
-    //implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // MongoDB
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
-    //************************************************************************
-    //  actuator
-    //************************************************************************
-    //implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    // Log4j2
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+    implementation 'org.apache.logging.log4j:log4j-core:2.19.0'
+    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.19.0'
 
-    ////////////////////////////////////////////////////////////////////////////
-    //************************************************************************
-    // Spring Boot Test
-    //************************************************************************
-    ////////////////////////////////////////////////////////////////////////////
+    // AOP
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.aspectj:aspectjweaver:1.9.19'
 
+    // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // JUnit, Mockito, AssertJ 등 기본적인 테스트 라이브러리를 포함됨.
-    // 생략 가능
-    // testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    // lombok을 이용해 Junit 테스트를 진행하는 경우 추가
-    testCompileOnly 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
+    // Spring Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-crypto:6.0.4'
+
+    // Gmail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'jakarta.mail:jakarta.mail-api:2.0.1'
+    implementation 'com.sun.mail:jakarta.mail:2.0.1'
+
+
 }
 
-
-tasks.named('test') {
-    useJUnitPlatform()
+configurations.all {
+    exclude group: 'ch.qos.logback', module: 'logback-classic'
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging' // Spring Boot 기본 로깅 제외
 }
