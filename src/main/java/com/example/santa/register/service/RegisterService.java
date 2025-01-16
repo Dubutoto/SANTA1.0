@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
-public class RegisterService {
+public class RegisterService implements RegisterServiceInterface {
 
     @Autowired
     private RegisterMapper registerMapper;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @Override
     public boolean registerUser(RegisterVO registerVO) {
         try {
             // 1. Employee Code 유효성 검증
@@ -38,11 +39,13 @@ public class RegisterService {
         }
     }
 
+    @Override
     public boolean isUserIdAvailable(String userId) {
         return registerMapper.getUserIdCount(userId) == 0;
     }
 
     // 사원 코드 유효성 검증
+    @Override
     public boolean isEmployeeCodeValid(String employeeCode) {
         return registerMapper.getEmployeeCodeCount(employeeCode) > 0;
     }

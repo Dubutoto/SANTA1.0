@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class InventoryService {
+public class InventoryService implements InventoryServiceInterface {
 
     private final InventoryMapper inventoryMapper;
 
@@ -19,16 +19,19 @@ public class InventoryService {
     //*************************************************
 
     //창고별 재고 list
+    @Override
     public List<InventoryDTO> readInventory() {
         return inventoryMapper.readInventory();
     }
 
     //창고 list 선택
+    @Override
     public List<InventoryDTO> getWarehouseList() {
         return inventoryMapper.getWarehouseList();
     }
 
     //창고 column 추가
+    @Override
     public List<InventoryDTO> addWarehouse(int warehouseId) {
         return inventoryMapper.addWarehouse(warehouseId);
     }
@@ -40,6 +43,7 @@ public class InventoryService {
     //*************************************************
 
     //품목별 재고 list
+    @Override
     public List<InventoryDTO> readProductInventory(){
         return inventoryMapper.readProductInventory();
     }

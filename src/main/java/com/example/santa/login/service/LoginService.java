@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LoginService {
+public class LoginService implements LoginServiceInterface {
 
     @Autowired
     private LoginMapper loginMapper;
 
+    @Override
     public LoginVO authenticateUser(String userId, String password) {
         LoginVO user = loginMapper.getUserByUserId(userId);
 
@@ -24,6 +25,7 @@ public class LoginService {
         return null; // 인증 실패
     }
 
+    @Override
     public UserDetailsVO getUserDetails(String userId) {
         // 사용자 추가 정보를 가져오기 위해 Mapper 호출
         return loginMapper.getUserDetailsByUserId(userId);

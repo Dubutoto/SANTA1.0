@@ -19,4 +19,7 @@ public interface TransitMapper {
 
     // 배송 ID 목록으로 창고 및 지점의 위도/경도 조회
     List<TransitDTO> getCoordinatesForTransit(@Param("transitIds") List<Integer> transitIds);
+
+    // Scheduler
+    void updateTransitSchedule(@Param("transitIds") List<Integer> transitIds);
 }

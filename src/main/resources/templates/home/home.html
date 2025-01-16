@@ -1,100 +1,103 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">  <!-- layout.html 을 상속 -->
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - SANTA1.0</title>
+</head>
 <body>
+<!-- 페이지 본문 영역 (layout.html 의 content fragment에 삽입) -->
 <div class="page-inner" layout:fragment="content">
-    <div
-            class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
-    >
+
+    <!-- 상단 제목 -->
+    <div class="d-flex align-items-left flex-column pt-2 pb-4">
         <div>
-            <h3 class="fw-bold mb-3">Dashboard</h3>
-            <h6 class="op-7 mb-2">SANTA 1.0 SYSTEM Dashboard</h6>
-        </div>
-        <div class="ms-md-auto py-2 py-md-0">
-            <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
-            <a href="#" class="btn btn-primary btn-round">Add Customer</a>
+            <h3 class="fw-bold mb-3">Santa 1.0 Dashboard</h3>
         </div>
     </div>
+
+    <!-- 상단 카드 4개 (하드코딩 예시) -->
     <div class="row">
+        <!-- Card1: Visitors -->
         <div class="col-sm-6 col-md-3">
             <div class="card card-stats card-round">
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-icon">
-                            <div
-                                    class="icon-big text-center icon-primary bubble-shadow-small"
-                            >
+                            <div class="icon-big text-center icon-primary bubble-shadow-small">
                                 <i class="fas fa-users"></i>
                             </div>
                         </div>
                         <div class="col col-stats ms-3 ms-sm-0">
                             <div class="numbers">
-                                <p class="card-category">Visitors</p>
-                                <h4 class="card-title">1,294</h4>
+                                <p class="card-category">대기중인 주문</p>
+                                <h4 class="card-title" th:text="${pendingOrders}">0</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Card2: Subscribers -->
         <div class="col-sm-6 col-md-3">
             <div class="card card-stats card-round">
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-icon">
-                            <div
-                                    class="icon-big text-center icon-info bubble-shadow-small"
-                            >
+                            <div class="icon-big text-center icon-info bubble-shadow-small">
                                 <i class="fas fa-user-check"></i>
                             </div>
                         </div>
                         <div class="col col-stats ms-3 ms-sm-0">
                             <div class="numbers">
-                                <p class="card-category">Subscribers</p>
-                                <h4 class="card-title">1303</h4>
+                                <p class="card-category">총 판매 금액</p>
+                                <h4 class="card-title" th:text="${formattedTotalSalesAmount}">0</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Card3: Sales -->
         <div class="col-sm-6 col-md-3">
             <div class="card card-stats card-round">
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-icon">
-                            <div
-                                    class="icon-big text-center icon-success bubble-shadow-small"
-                            >
+                            <div class="icon-big text-center icon-success bubble-shadow-small">
                                 <i class="fas fa-luggage-cart"></i>
                             </div>
                         </div>
                         <div class="col col-stats ms-3 ms-sm-0">
                             <div class="numbers">
-                                <p class="card-category">Sales</p>
-                                <h4 class="card-title">$ 1,345</h4>
+                                <p class="card-category">창고 보유 총 자산</p>
+                                <h4 class="card-title" th:text="${formattedWarehouseTotalAsset}">0</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Card4: Order -->
         <div class="col-sm-6 col-md-3">
             <div class="card card-stats card-round">
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-icon">
-                            <div
-                                    class="icon-big text-center icon-secondary bubble-shadow-small"
-                            >
+                            <div class="icon-big text-center icon-secondary bubble-shadow-small">
                                 <i class="far fa-check-circle"></i>
                             </div>
                         </div>
                         <div class="col col-stats ms-3 ms-sm-0">
                             <div class="numbers">
-                                <p class="card-category">Order</p>
-                                <h4 class="card-title">576</h4>
+                                <p class="card-category">이번 달 주문수</p>
+                                <h4 class="card-title" th:text="${totalOrders}">0</h4>
                             </div>
                         </div>
                     </div>
@@ -102,80 +105,42 @@
             </div>
         </div>
     </div>
+
+    <!-- 차트 구역 -->
     <div class="row">
+        <!-- (5) 월별 입고/출고/재고량 그래프 -->
         <div class="col-md-8">
             <div class="card card-round">
                 <div class="card-header">
-                    <div class="card-head-row">
-                        <div class="card-title">User Statistics</div>
-                        <div class="card-tools">
-                            <a
-                                    href="#"
-                                    class="btn btn-label-success btn-round btn-sm me-2"
-                            >
-                          <span class="btn-label">
-                            <i class="fa fa-pencil"></i>
-                          </span>
-                                Export
-                            </a>
-                            <a href="#" class="btn btn-label-info btn-round btn-sm">
-                          <span class="btn-label">
-                            <i class="fa fa-print"></i>
-                          </span>
-                                Print
-                            </a>
-                        </div>
-                    </div>
+                    <div class="card-title">월별 입고/출고/재고량</div>
                 </div>
                 <div class="card-body">
-                    <div class="chart-container" style="min-height: 375px">
-                        <canvas id="statisticsChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="htmlLegendsChart"></canvas>
                     </div>
-                    <div id="myChartLegend1"></div>
+                    <div id="myChartLegend"></div>
                 </div>
             </div>
         </div>
+
+        <!-- (4) 월별 주문량 (Daily Sales 자리 대체) -->
         <div class="col-md-4">
             <div class="card card-primary card-round">
                 <div class="card-header">
-                    <div class="card-head-row">
-                        <div class="card-title">Daily Sales</div>
-                        <div class="card-tools">
-                            <div class="dropdown">
-                                <button
-                                        class="btn btn-sm btn-label-light dropdown-toggle"
-                                        type="button"
-                                        id="dropdownMenuButton2"
-                                        data-bs-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                >
-                                    Export
-                                </button>
-                                <div
-                                        class="dropdown-menu"
-                                        aria-labelledby="dropdownMenuButton"
-                                >
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#"
-                                    >Something else here</a
-                                    >
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-category">March 25 - April 02</div>
+                    <div class="card-title">Monthly Orders</div>
+                    <div class="card-category">주문 수</div>
                 </div>
                 <div class="card-body pb-0">
                     <div class="mb-4 mt-2">
-                        <h1>$4,578.58</h1>
+                        <!-- Controller에서 미리 계산된 totalOrders 변수 사용 -->
+                        <h1 th:text="${totalOrders} + ' orders'">0 orders</h1>
                     </div>
                     <div class="pull-in">
-                        <canvas id="dailySalesChart"></canvas>
+                        <canvas id="monthlyOrderChart"></canvas>
                     </div>
                 </div>
             </div>
+            <!-- 기타 카드 (Users online 등) -->
             <div class="card card-round">
                 <div class="card-body pb-0">
                     <div class="h1 fw-bold float-end text-primary">+5%</div>
@@ -188,89 +153,14 @@
             </div>
         </div>
     </div>
+
+    <!-- 나머지 차트들 (Multiple Line, Bar, Pie, Line) -->
     <div class="row">
+        <!-- (1) 월별 입/출/재고 Multiple Line Chart -->
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Line Chart</div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="lineChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Bar Chart</div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="barChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Pie Chart</div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container">
-                        <canvas
-                                id="pieChart"
-                                style="width: 50%; height: 50%"
-                        ></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Doughnut Chart</div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container">
-                        <canvas
-                                id="doughnutChart"
-                                style="width: 50%; height: 50%"
-                        ></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Radar Chart</div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="radarChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Bubble Chart</div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="bubbleChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Multiple Line Chart</div>
+                    <div class="card-title">월별 입/출/재고량</div>
                 </div>
                 <div class="card-body">
                     <div class="chart-container">
@@ -279,655 +169,189 @@
                 </div>
             </div>
         </div>
+        <!-- (2) 창고별 재고량 Bar Chart -->
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Multiple Bar Chart</div>
+                    <div class="card-title">창고별 재고량</div>
                 </div>
                 <div class="card-body">
                     <div class="chart-container">
-                        <canvas id="multipleBarChart"></canvas>
+                        <canvas id="barChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
+        <!-- (3) 카테고리별 재고량 Pie Chart -->
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Chart with HTML Legends</div>
+                    <div class="card-title">카테고리별 재고량</div>
                 </div>
                 <div class="card-body">
-                    <div class="card-sub">
-                        Sometimes you need a very complex legend. In these cases,
-                        it makes sense to generate an HTML legend. Charts provide
-                        a generateLegend() method on their prototype that returns
-                        an HTML string for the legend.
-                    </div>
                     <div class="chart-container">
-                        <canvas id="htmlLegendsChart"></canvas>
+                        <canvas id="pieChart"></canvas>
                     </div>
-                    <div id="myChartLegend"></div>
+                </div>
+            </div>
+        </div>
+        <!-- (4) 월별 주문량 Line Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">월별 주문량</div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="lineChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- chart.js -->
-    <script src="/assets/js/plugin/chart.js/chart.min.js"></script>
+</div> <!-- end of layout:fragment="content" -->
 
-    <!-- sparkline -->
-    <script src="/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+<!-- layout.html 의 <th:block layout:fragment="script"> 영역 -->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // Model로부터 받은 차트용 데이터
+        let monthlyInOutInvList = /*[[${monthlyInOutInvList}]]*/ [];
+        let warehouseInventoryList = /*[[${warehouseInventoryList}]]*/ [];
+        let categoryInventoryList = /*[[${categoryInventoryList}]]*/ [];
+        let monthlyOrderList = /*[[${monthlyOrderList}]]*/ [];
 
-    <th:block layout:fragment="script">
-        <script>
+        // (1) & (5) 월별 라벨 데이터
+        const monthLabels = monthlyInOutInvList.map(item => item.month + '월');
+        const inboundData = monthlyInOutInvList.map(item => item.inbound);
+        const outboundData = monthlyInOutInvList.map(item => item.outbound);
+        const inventoryData = monthlyInOutInvList.map(item => item.inventory);
 
-            var lineChart = document.getElementById("lineChart").getContext("2d"),
-                barChart = document.getElementById("barChart").getContext("2d"),
-                pieChart = document.getElementById("pieChart").getContext("2d"),
-                doughnutChart = document
-                    .getElementById("doughnutChart")
-                    .getContext("2d"),
-                radarChart = document.getElementById("radarChart").getContext("2d"),
-                bubbleChart = document.getElementById("bubbleChart").getContext("2d"),
-                multipleLineChart = document
-                    .getElementById("multipleLineChart")
-                    .getContext("2d"),
-                multipleBarChart = document
-                    .getElementById("multipleBarChart")
-                    .getContext("2d"),
-                htmlLegendsChart = document
-                    .getElementById("htmlLegendsChart")
-                    .getContext("2d");
+        // (2) 창고별 재고량 데이터
+        const warehouseLabels = warehouseInventoryList.map(w => w.warehouseName);
+        const warehouseQtyData = warehouseInventoryList.map(w => w.totalQuantity);
 
-            var myLineChart = new Chart(lineChart, {
-                type: "line",
-                data: {
-                    labels: [
-                        "Jan",
-                        "Feb",
-                        "Mar",
-                        "Apr",
-                        "May",
-                        "Jun",
-                        "Jul",
-                        "Aug",
-                        "Sep",
-                        "Oct",
-                        "Nov",
-                        "Dec",
-                    ],
-                    datasets: [
-                        {
-                            label: "Active Users",
-                            borderColor: "#1d7af3",
-                            pointBorderColor: "#FFF",
-                            pointBackgroundColor: "#1d7af3",
-                            pointBorderWidth: 2,
-                            pointHoverRadius: 4,
-                            pointHoverBorderWidth: 1,
-                            pointRadius: 4,
-                            backgroundColor: "transparent",
-                            fill: true,
-                            borderWidth: 2,
-                            data: [
-                                542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 900,
-                            ],
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: {
-                        position: "bottom",
-                        labels: {
-                            padding: 10,
-                            fontColor: "#1d7af3",
-                        },
-                    },
-                    tooltips: {
-                        bodySpacing: 4,
-                        mode: "nearest",
-                        intersect: 0,
-                        position: "nearest",
-                        xPadding: 10,
-                        yPadding: 10,
-                        caretPadding: 10,
-                    },
-                    layout: {
-                        padding: { left: 15, right: 15, top: 15, bottom: 15 },
-                    },
-                },
-            });
+        // (3) 카테고리별 재고량 데이터
+        const categoryLabels = categoryInventoryList.map(c => c.categoryName);
+        const categoryQtyData = categoryInventoryList.map(c => c.totalQuantity);
 
-            var myBarChart = new Chart(barChart, {
-                type: "bar",
-                data: {
-                    labels: [
-                        "Jan",
-                        "Feb",
-                        "Mar",
-                        "Apr",
-                        "May",
-                        "Jun",
-                        "Jul",
-                        "Aug",
-                        "Sep",
-                        "Oct",
-                        "Nov",
-                        "Dec",
-                    ],
-                    datasets: [
-                        {
-                            label: "Sales",
-                            backgroundColor: "rgb(23, 125, 255)",
-                            borderColor: "rgb(23, 125, 255)",
-                            data: [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4],
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        yAxes: [
-                            {
-                                ticks: {
-                                    beginAtZero: true,
-                                },
-                            },
-                        ],
-                    },
-                },
-            });
+        // (4) 월별 주문량 데이터
+        const orderLabels = monthlyOrderList.map(o => o.month + '월');
+        const orderData = monthlyOrderList.map(o => o.orderCount);
 
-            var myPieChart = new Chart(pieChart, {
-                type: "pie",
-                data: {
-                    datasets: [
-                        {
-                            data: [50, 35, 15],
-                            backgroundColor: ["#1d7af3", "#f3545d", "#fdaf4b"],
-                            borderWidth: 0,
-                        },
-                    ],
-                    labels: ["New Visitors", "Subscribers", "Active Users"],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: {
-                        position: "bottom",
-                        labels: {
-                            fontColor: "rgb(154, 154, 154)",
-                            fontSize: 11,
-                            usePointStyle: true,
-                            padding: 20,
-                        },
-                    },
-                    pieceLabel: {
-                        render: "percentage",
-                        fontColor: "white",
-                        fontSize: 14,
-                    },
-                    tooltips: false,
-                    layout: {
-                        padding: {
-                            left: 20,
-                            right: 20,
-                            top: 20,
-                            bottom: 20,
-                        },
-                    },
-                },
-            });
+        // Chart.js DOM 요소 (ID와 일치)
+        const multipleLineCtx = document.getElementById("multipleLineChart").getContext("2d");
+        const barCtx = document.getElementById("barChart").getContext("2d");
+        const pieCtx = document.getElementById("pieChart").getContext("2d");
+        const lineCtx = document.getElementById("lineChart").getContext("2d");
+        const htmlLegendsCtx = document.getElementById("htmlLegendsChart").getContext("2d");
+        const monthlyOrderCtx = document.getElementById("monthlyOrderChart").getContext("2d");
 
-            var myDoughnutChart = new Chart(doughnutChart, {
-                type: "doughnut",
-                data: {
-                    datasets: [
-                        {
-                            data: [10, 20, 30],
-                            backgroundColor: ["#f3545d", "#fdaf4b", "#1d7af3"],
-                        },
-                    ],
-
-                    labels: ["Red", "Yellow", "Blue"],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: {
-                        position: "bottom",
+        // (1) 월별 입/출/재고 Multiple Line Chart 생성
+        new Chart(multipleLineCtx, {
+            type: "line",
+            data: {
+                labels: monthLabels,
+                datasets: [
+                    {
+                        label: "입고량",
+                        data: inboundData,
+                        borderColor: "#1d7af3",
+                        backgroundColor: "transparent"
                     },
-                    layout: {
-                        padding: {
-                            left: 20,
-                            right: 20,
-                            top: 20,
-                            bottom: 20,
-                        },
+                    {
+                        label: "출고량",
+                        data: outboundData,
+                        borderColor: "#59d05d",
+                        backgroundColor: "transparent"
                     },
-                },
-            });
-
-            var myRadarChart = new Chart(radarChart, {
-                type: "radar",
-                data: {
-                    labels: ["Running", "Swimming", "Eating", "Cycling", "Jumping"],
-                    datasets: [
-                        {
-                            data: [20, 10, 30, 2, 30],
-                            borderColor: "#1d7af3",
-                            backgroundColor: "rgba(29, 122, 243, 0.25)",
-                            pointBackgroundColor: "#1d7af3",
-                            pointHoverRadius: 4,
-                            pointRadius: 3,
-                            label: "Team 1",
-                        },
-                        {
-                            data: [10, 20, 15, 30, 22],
-                            borderColor: "#716aca",
-                            backgroundColor: "rgba(113, 106, 202, 0.25)",
-                            pointBackgroundColor: "#716aca",
-                            pointHoverRadius: 4,
-                            pointRadius: 3,
-                            label: "Team 2",
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: {
-                        position: "bottom",
-                    },
-                },
-            });
-
-            var myBubbleChart = new Chart(bubbleChart, {
-                type: "bubble",
-                data: {
-                    datasets: [
-                        {
-                            label: "Car",
-                            data: [
-                                { x: 25, y: 17, r: 25 },
-                                { x: 30, y: 25, r: 28 },
-                                { x: 35, y: 30, r: 8 },
-                            ],
-                            backgroundColor: "#716aca",
-                        },
-                        {
-                            label: "Motorcycles",
-                            data: [
-                                { x: 10, y: 17, r: 20 },
-                                { x: 30, y: 10, r: 7 },
-                                { x: 35, y: 20, r: 10 },
-                            ],
-                            backgroundColor: "#1d7af3",
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: {
-                        position: "bottom",
-                    },
-                    scales: {
-                        yAxes: [
-                            {
-                                ticks: {
-                                    beginAtZero: true,
-                                },
-                            },
-                        ],
-                        xAxes: [
-                            {
-                                ticks: {
-                                    beginAtZero: true,
-                                },
-                            },
-                        ],
-                    },
-                },
-            });
-
-            var myMultipleLineChart = new Chart(multipleLineChart, {
-                type: "line",
-                data: {
-                    labels: [
-                        "Jan",
-                        "Feb",
-                        "Mar",
-                        "Apr",
-                        "May",
-                        "Jun",
-                        "Jul",
-                        "Aug",
-                        "Sep",
-                        "Oct",
-                        "Nov",
-                        "Dec",
-                    ],
-                    datasets: [
-                        {
-                            label: "Python",
-                            borderColor: "#1d7af3",
-                            pointBorderColor: "#FFF",
-                            pointBackgroundColor: "#1d7af3",
-                            pointBorderWidth: 2,
-                            pointHoverRadius: 4,
-                            pointHoverBorderWidth: 1,
-                            pointRadius: 4,
-                            backgroundColor: "transparent",
-                            fill: true,
-                            borderWidth: 2,
-                            data: [30, 45, 45, 68, 69, 90, 100, 158, 177, 200, 245, 256],
-                        },
-                        {
-                            label: "PHP",
-                            borderColor: "#59d05d",
-                            pointBorderColor: "#FFF",
-                            pointBackgroundColor: "#59d05d",
-                            pointBorderWidth: 2,
-                            pointHoverRadius: 4,
-                            pointHoverBorderWidth: 1,
-                            pointRadius: 4,
-                            backgroundColor: "transparent",
-                            fill: true,
-                            borderWidth: 2,
-                            data: [10, 20, 55, 75, 80, 48, 59, 55, 23, 107, 60, 87],
-                        },
-                        {
-                            label: "Ruby",
-                            borderColor: "#f3545d",
-                            pointBorderColor: "#FFF",
-                            pointBackgroundColor: "#f3545d",
-                            pointBorderWidth: 2,
-                            pointHoverRadius: 4,
-                            pointHoverBorderWidth: 1,
-                            pointRadius: 4,
-                            backgroundColor: "transparent",
-                            fill: true,
-                            borderWidth: 2,
-                            data: [10, 30, 58, 79, 90, 105, 117, 160, 185, 210, 185, 194],
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: {
-                        position: "top",
-                    },
-                    tooltips: {
-                        bodySpacing: 4,
-                        mode: "nearest",
-                        intersect: 0,
-                        position: "nearest",
-                        xPadding: 10,
-                        yPadding: 10,
-                        caretPadding: 10,
-                    },
-                    layout: {
-                        padding: { left: 15, right: 15, top: 15, bottom: 15 },
-                    },
-                },
-            });
-
-            var myMultipleBarChart = new Chart(multipleBarChart, {
-                type: "bar",
-                data: {
-                    labels: [
-                        "Jan",
-                        "Feb",
-                        "Mar",
-                        "Apr",
-                        "May",
-                        "Jun",
-                        "Jul",
-                        "Aug",
-                        "Sep",
-                        "Oct",
-                        "Nov",
-                        "Dec",
-                    ],
-                    datasets: [
-                        {
-                            label: "First time visitors",
-                            backgroundColor: "#59d05d",
-                            borderColor: "#59d05d",
-                            data: [95, 100, 112, 101, 144, 159, 178, 156, 188, 190, 210, 245],
-                        },
-                        {
-                            label: "Visitors",
-                            backgroundColor: "#fdaf4b",
-                            borderColor: "#fdaf4b",
-                            data: [
-                                145, 256, 244, 233, 210, 279, 287, 253, 287, 299, 312, 356,
-                            ],
-                        },
-                        {
-                            label: "Pageview",
-                            backgroundColor: "#177dff",
-                            borderColor: "#177dff",
-                            data: [
-                                185, 279, 273, 287, 234, 312, 322, 286, 301, 320, 346, 399,
-                            ],
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: {
-                        position: "bottom",
-                    },
-                    title: {
-                        display: true,
-                        text: "Traffic Stats",
-                    },
-                    tooltips: {
-                        mode: "index",
-                        intersect: false,
-                    },
-                    responsive: true,
-                    scales: {
-                        xAxes: [
-                            {
-                                stacked: true,
-                            },
-                        ],
-                        yAxes: [
-                            {
-                                stacked: true,
-                            },
-                        ],
-                    },
-                },
-            });
-
-            // Chart with HTML Legends
-
-            var gradientStroke = htmlLegendsChart.createLinearGradient(
-                500,
-                0,
-                100,
-                0
-            );
-            gradientStroke.addColorStop(0, "#177dff");
-            gradientStroke.addColorStop(1, "#80b6f4");
-
-            var gradientFill = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
-            gradientFill.addColorStop(0, "rgba(23, 125, 255, 0.7)");
-            gradientFill.addColorStop(1, "rgba(128, 182, 244, 0.3)");
-
-            var gradientStroke2 = htmlLegendsChart.createLinearGradient(
-                500,
-                0,
-                100,
-                0
-            );
-            gradientStroke2.addColorStop(0, "#f3545d");
-            gradientStroke2.addColorStop(1, "#ff8990");
-
-            var gradientFill2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
-            gradientFill2.addColorStop(0, "rgba(243, 84, 93, 0.7)");
-            gradientFill2.addColorStop(1, "rgba(255, 137, 144, 0.3)");
-
-            var gradientStroke3 = htmlLegendsChart.createLinearGradient(
-                500,
-                0,
-                100,
-                0
-            );
-            gradientStroke3.addColorStop(0, "#fdaf4b");
-            gradientStroke3.addColorStop(1, "#ffc478");
-
-            var gradientFill3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
-            gradientFill3.addColorStop(0, "rgba(253, 175, 75, 0.7)");
-            gradientFill3.addColorStop(1, "rgba(255, 196, 120, 0.3)");
-
-            var myHtmlLegendsChart = new Chart(htmlLegendsChart, {
-                type: "line",
-                data: {
-                    labels: [
-                        "Jan",
-                        "Feb",
-                        "Mar",
-                        "Apr",
-                        "May",
-                        "Jun",
-                        "Jul",
-                        "Aug",
-                        "Sep",
-                        "Oct",
-                        "Nov",
-                        "Dec",
-                    ],
-                    datasets: [
-                        {
-                            label: "Subscribers",
-                            borderColor: gradientStroke2,
-                            pointBackgroundColor: gradientStroke2,
-                            pointRadius: 0,
-                            backgroundColor: gradientFill2,
-                            legendColor: "#f3545d",
-                            fill: true,
-                            borderWidth: 1,
-                            data: [
-                                154, 184, 175, 203, 210, 231, 240, 278, 252, 312, 320, 374,
-                            ],
-                        },
-                        {
-                            label: "New Visitors",
-                            borderColor: gradientStroke3,
-                            pointBackgroundColor: gradientStroke3,
-                            pointRadius: 0,
-                            backgroundColor: gradientFill3,
-                            legendColor: "#fdaf4b",
-                            fill: true,
-                            borderWidth: 1,
-                            data: [
-                                256, 230, 245, 287, 240, 250, 230, 295, 331, 431, 456, 521,
-                            ],
-                        },
-                        {
-                            label: "Active Users",
-                            borderColor: gradientStroke,
-                            pointBackgroundColor: gradientStroke,
-                            pointRadius: 0,
-                            backgroundColor: gradientFill,
-                            legendColor: "#177dff",
-                            fill: true,
-                            borderWidth: 1,
-                            data: [
-                                542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 900,
-                            ],
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false,
-                    },
-                    tooltips: {
-                        bodySpacing: 4,
-                        mode: "nearest",
-                        intersect: 0,
-                        position: "nearest",
-                        xPadding: 10,
-                        yPadding: 10,
-                        caretPadding: 10,
-                    },
-                    layout: {
-                        padding: { left: 15, right: 15, top: 15, bottom: 15 },
-                    },
-                    scales: {
-                        yAxes: [
-                            {
-                                ticks: {
-                                    fontColor: "rgba(0,0,0,0.5)",
-                                    fontStyle: "500",
-                                    beginAtZero: false,
-                                    maxTicksLimit: 5,
-                                    padding: 20,
-                                },
-                                gridLines: {
-                                    drawTicks: false,
-                                    display: false,
-                                },
-                            },
-                        ],
-                        xAxes: [
-                            {
-                                gridLines: {
-                                    zeroLineColor: "transparent",
-                                },
-                                ticks: {
-                                    padding: 20,
-                                    fontColor: "rgba(0,0,0,0.5)",
-                                    fontStyle: "500",
-                                },
-                            },
-                        ],
-                    },
-                    legendCallback: function (chart) {
-                        var text = [];
-                        text.push('<ul class="' + chart.id + '-legend html-legend">');
-                        for (var i = 0; i < chart.data.datasets.length; i++) {
-                            text.push(
-                                '<li><span style="background-color:' +
-                                chart.data.datasets[i].legendColor +
-                                '"></span>'
-                            );
-                            if (chart.data.datasets[i].label) {
-                                text.push(chart.data.datasets[i].label);
-                            }
-                            text.push("</li>");
-                        }
-                        text.push("</ul>");
-                        return text.join("");
-                    },
-                },
-            });
-
-            var myLegendContainer = document.getElementById("myChartLegend");
-
-            // generate HTML legend
-            myLegendContainer.innerHTML = myHtmlLegendsChart.generateLegend();
-
-            // bind onClick event to all LI-tags of the legend
-            var legendItems = myLegendContainer.getElementsByTagName("li");
-            for (var i = 0; i < legendItems.length; i += 1) {
-                legendItems[i].addEventListener("click", legendClickCallback, false);
+                    {
+                        label: "재고량",
+                        data: inventoryData,
+                        borderColor: "#f3545d",
+                        backgroundColor: "transparent"
+                    }
+                ]
             }
-        </script>
-    </th:block>
-</div>
+        });
+
+        // (2) 창고별 재고량 Bar Chart 생성
+        new Chart(barCtx, {
+            type: "bar",
+            data: {
+                labels: warehouseLabels,
+                datasets: [{
+                    label: "재고량",
+                    data: warehouseQtyData,
+                    backgroundColor: "rgb(23,125,255)"
+                }]
+            }
+        });
+
+        // (3) 카테고리별 재고량 Pie Chart 생성
+        new Chart(pieCtx, {
+            type: "pie",
+            data: {
+                labels: categoryLabels,
+                datasets: [{
+                    data: categoryQtyData,
+                    backgroundColor: ["#1d7af3", "#f3545d", "#fdaf4b", "#59d05d", "#999999"]
+                }]
+            }
+        });
+
+        // (4) 월별 주문량 Line Chart 생성
+        new Chart(lineCtx, {
+            type: "line",
+            data: {
+                labels: orderLabels,
+                datasets: [{
+                    label: "주문 건수",
+                    data: orderData,
+                    borderColor: "#177dff",
+                    backgroundColor: "transparent"
+                }]
+            }
+        });
+
+        // (5) htmlLegendsChart - 또 다른 스타일의 월별 입/출/재고 그래프 생성
+        const myHtmlLegendsChart = new Chart(htmlLegendsCtx, {
+            type: "line",
+            data: {
+                labels: monthLabels,
+                datasets: [
+                    {
+                        label: "입고량",
+                        data: inboundData,
+                        borderColor: "#1d7af3",
+                        backgroundColor: "rgba(23,125,255,0.2)"
+                    },
+                    {
+                        label: "출고량",
+                        data: outboundData,
+                        borderColor: "#59d05d",
+                        backgroundColor: "rgba(89,208,93,0.2)"
+                    },
+                    {
+                        label: "재고량",
+                        data: inventoryData,
+                        borderColor: "#f3545d",
+                        backgroundColor: "rgba(243,84,93,0.2)"
+                    }
+                ]
+            },
+            options: {
+                legend: { display: false }
+            }
+        });
+
+        // HTML Legend 커스터마이징: myChartLegend 영역에 생성된 legend HTML 삽입
+        document.getElementById("myChartLegend").innerHTML = myHtmlLegendsChart.generateLegend();
+
+        /*]]>*/
+    </script>
+</th:block>
+
 </body>
 </html>

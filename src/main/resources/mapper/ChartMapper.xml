@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.santa.home.mapper.ChartMapper">
+
+    <!--  월별 입고(Incoming), 출고(Outgoing), 재고(Warehouse_Inventory) 집계 -->
+    <select id="getMonthlyInOutInvList" resultType="com.example.santa.home.vo.MonthlyInOutInvVO">
+        SELECT
+            M.monthVal AS month,
+            IFNULL(I.inbound, 0)  AS inbound,
+            IFNULL(O.outbound, 0) AS outbound,
+            IFNULL(N.inventory,0) AS inventory
+        FROM
+            (
+            SELECT 1 AS monthVal UNION ALL SELECT 2 UNION ALL SELECT 3
+            UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6
+            UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+            UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12
+            ) AS M
+            LEFT JOIN (
+            SELECT MONTH(incoming_date) AS m, SUM(quantity) AS inbound
+            FROM Incoming
+            GROUP BY MONTH(incoming_date)
+            ) I ON (M.monthVal = I.m)
+            LEFT JOIN (
+            SELECT MONTH(outgoing_date) AS m, SUM(quantity) AS outbound
+            FROM Outgoing
+            GROUP BY MONTH(outgoing_date)
+            ) O ON (M.monthVal = O.m)
+            LEFT JOIN (
+            SELECT MONTH(last_updated) AS m, SUM(quantity) AS inventory
+            FROM Warehouse_Inventory
+            GROUP BY MONTH(last_updated)
+            ) N ON (M.monthVal = N.m)
+        ORDER BY M.monthVal
+    </select>
+
+    <!--  창고별 재고량 -->
+    <select id="getWarehouseInventoryList" resultType="com.example.santa.home.vo.WarehouseInventoryVO">
+        SELECT
+            W.name AS warehouseName,
+            IFNULL(SUM(WI.quantity), 0) AS totalQuantity
+        FROM Warehouse_Inventory WI
+                 INNER JOIN Warehouses W ON WI.warehouse_id = W.warehouse_id
+        GROUP BY W.warehouse_id
+        ORDER BY W.warehouse_id
+    </select>
+
+    <!--  카테고리별 재고량 -->
+    <select id="getCategoryInventoryList" resultType="com.example.santa.home.vo.CategoryInventoryVO">
+        SELECT
+            C.name AS categoryName,
+            IFNULL(SUM(WI.quantity), 0) AS totalQuantity
+        FROM Warehouse_Inventory WI
+                 INNER JOIN Products P ON WI.product_id = P.product_id
+                 INNER JOIN Categories C ON P.category_id = C.category_id
+        GROUP BY C.category_id
+        ORDER BY C.category_id
+    </select>
+
+    <!--  월별 주문량 -->
+    <select id="getMonthlyOrderList" resultType="com.example.santa.home.vo.MonthlyOrderVO">
+        SELECT
+            MONTH(order_date) AS month,
+            COUNT(*) AS orderCount
+        FROM Orders
+        GROUP BY MONTH(order_date)
+        ORDER BY MONTH(order_date)
+    </select>
+
+
+    <!-- 주문 대기 수 -->
+    <select id="getPendingOrders" resultType="int">
+        SELECT COUNT(*) AS pendingOrders
+        FROM Orders
+        WHERE status = '대기';
+    </select>
+
+    <!-- 총 판매 금액 -->
+    <select id="getTotalSalesAmount" resultType="double">
+        SELECT SUM(quantity * price) AS totalSalesAmount
+        FROM Orders
+                 INNER JOIN Products ON Orders.product_id = Products.product_id
+        WHERE status = '승인';
+    </select>
+
+    <!-- 창고 총 자산 금액 -->
+    <select id="getWarehouseTotalAsset" resultType="double">
+        SELECT SUM(WI.quantity * P.price) AS warehouseTotalAsset
+        FROM Warehouse_Inventory WI
+                 INNER JOIN Products P ON WI.product_id = P.product_id;
+    </select>
+
+    <!-- 총 주문 수 -->
+    <select id="getTotalOrders" resultType="int">
+        SELECT COUNT(*) AS totalOrders
+        FROM Orders;
+    </select>
+
+</mapper>

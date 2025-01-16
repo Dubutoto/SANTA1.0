@@ -4,6 +4,7 @@ package com.example.santa.board.controller;
 
 import com.example.santa.board.service.BoardService;
 import com.example.santa.board.vo.BoardVO;
+import com.example.santa.login.vo.UserDetailsVO;
 import com.example.santa.reply.service.ReplyService;
 import com.example.santa.reply.vo.ReplyVO;
 import org.springframework.http.HttpStatus;
@@ -51,7 +52,10 @@ public class BoardController {
 
     @GetMapping("board")
     public String selectBoardAll(Model model, HttpSession session) {
-        session.setAttribute("userId", 2);
+
+        UserDetailsVO userDetails = (UserDetailsVO) session.getAttribute("userDetails");
+        model.addAttribute("userId", userDetails.getUserId());
+        //session.setAttribute("userId", 2);
         List<BoardVO> list = boardService.selectBoardAll();
         model.addAttribute("list", list);
         return "board/board";

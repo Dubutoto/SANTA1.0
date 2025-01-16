@@ -10,33 +10,39 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class NoticeService {
+public class NoticeService implements NoticeServiceInterface {
 
     final private NoticeMapper noticeMapper;
 
+    @Override
     public List<NoticeDTO> selectAllNotice() {
         return noticeMapper.selectAllNotice();
     }
 
+    @Override
     public int insertNotice(NoticeVO notice) {
         System.out.println("========insertNotice======" + notice);
         return noticeMapper.insertNotice(notice);
     }
 
+    @Override
     public int deleteNotice(int id) {
         System.out.println("========noticeDelete======" + id);
         return noticeMapper.deleteNotice(id);
     }
 
+    @Override
     public NoticeDTO selectByNoticeId(int noticeId) {
         System.out.println("========NoticeServiceSelectByNoticeId=======" + noticeId);
         return noticeMapper.selectByNoticeId(noticeId);
     }
 
+    @Override
     public NoticeVO selectByNoticeId2(int noticeId) {
         System.out.println("========NoticeServiceSelectByNoticeId2=======" + noticeId);
         return noticeMapper.selectByNoticeId2(noticeId);
     }
+    @Override
     public int updateNotice(NoticeVO notice) {
         System.out.println("=======updateNoticeService======" + notice);
         return noticeMapper.updateNotice(notice);

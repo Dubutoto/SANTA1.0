@@ -35,7 +35,7 @@ public class Spring4Application implements CommandLineRunner {
         // 애플리케이션 시작 후 콘솔에 링크 출력
         System.out.println("========================================");
         System.out.println("Application is running at:");
-        System.out.println("http://localhost:8889");
+        System.out.println("http://localhost:8889/login");
         System.out.println("========================================");
     }
 

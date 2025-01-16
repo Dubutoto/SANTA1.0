@@ -9,11 +9,12 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailService {
+public class EmailService implements EmailServiceInterface {
 
     @Autowired
     private JavaMailSender mailSender;
 
+    @Override
     public void sendEmail(String to, String subject, String body) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
@@ -28,6 +29,7 @@ public class EmailService {
     }
 
     // HTML 이메일 전송 메서드
+    @Override
     public void sendHtmlEmail(String to, String subject, String htmlContent) {
         MimeMessage message = mailSender.createMimeMessage();
         try {

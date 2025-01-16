@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class FindService {
+public class FindService implements FindServiceInterface {
 
     @Autowired
     private FindMapper findMapper;
@@ -39,11 +39,13 @@ public class FindService {
     */
 
     // 이메일로 아이디 찾기
+    @Override
     public String findIdByEmail(String email) {
         return findMapper.findIdByEmail(email);
     }
 
     // 비밀번호 재설정 링크 전송
+    @Override
     public void sendPasswordResetLink(String email) {
         String userId = findMapper.findIdByEmail(email);
         if (userId == null) {
@@ -71,6 +73,7 @@ public class FindService {
 
 
     // 비밀번호 재설정
+    @Override
     public void resetPassword(String token, String newPassword) {
         // 1. 토큰으로 이메일 검색
         String email = resetTokenMapper.findEmailByToken(token);

@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService {
+public class OrderService implements OrderServiceInterface {
 
     private final OrderMapper orderMapper;
 
@@ -22,11 +22,13 @@ public class OrderService {
     //******************** 주문 조회 ********************
     //*************************************************
     //주문 조회 list
+    @Override
     public List<OrderDTO> readOrder(){
         return orderMapper.readOrder();
     }
 
     //주문 일자 검색
+    @Override
     public List<OrderDTO> searchByOrderDate(String startDate, String endDate) {
         if (startDate == null || endDate == null || startDate.isEmpty() || endDate.isEmpty()) {
             throw new IllegalArgumentException("시작일자와 종료일자를 입력해야 합니다.");
@@ -40,16 +42,19 @@ public class OrderService {
     }
 
     //상품 검색
+    @Override
     public List<OrderDTO> searchByProductName(String productName) {
         return orderMapper.searchByProductName(productName);
     }
 
     //주문 지점 검색
+    @Override
     public List<OrderDTO> searchByBranchName(String branchName) {
         return orderMapper.searchByBranchName(branchName);
     }
 
     //주문 상태 검색
+    @Override
     public List<OrderDTO> searchByOrderStatus(String orderStatus) {
         return orderMapper.searchByOrderStatus(orderStatus);
     }
@@ -58,12 +63,14 @@ public class OrderService {
     //******************** 주문 승인 ********************
     //*************************************************
     //승인 대기 주문 list
+    @Override
     public List<OrderDTO> readPendingOrders(){
         return orderMapper.readPendingOrders();
     }
 
     //주문 승인/거절
     @Transactional
+    @Override
     public int updateOrderStatus(int orderId, String orderStatus) {
         //orderIdFind() 해서 재고량과 주문량 비교해서 처리한 값 넘겨주기
         System.out.println(orderStatus);
@@ -89,6 +96,7 @@ public class OrderService {
     }
 
     // 승인 대기 주문, 주문 일자 검색
+    @Override
     public List<OrderDTO> searchByPendingOrderDate(String startDate, String endDate) {
         if (startDate == null || endDate == null || startDate.isEmpty() || endDate.isEmpty()) {
             throw new IllegalArgumentException("시작일자와 종료일자를 입력해야 합니다.");
@@ -102,26 +110,15 @@ public class OrderService {
     }
 
     // 승인 대기 주문, 주문 상품 검색
+    @Override
     public List<OrderDTO> searchByPendingProductName(String productName) {
         return orderMapper.searchByPendingProductName(productName);
     }
 
     // 승인 대기 주문, 주문 지점 검색
+    @Override
     public List<OrderDTO> searchByPendingBranchName(String branchName) {
         return orderMapper.searchByPendingBranchName(branchName);
-    }
-    
-    //*************************************************
-    //******************** 로직 메서드 ******************
-    //*************************************************
-    // 날짜 검증 메서드 추가
-    private boolean isValidDate(String date) {
-        try {
-            LocalDate.parse(date);
-            return true;
-        } catch (DateTimeParseException e) {
-            return false;
-        }
     }
 
 }

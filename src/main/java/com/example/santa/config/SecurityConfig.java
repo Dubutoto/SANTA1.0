@@ -24,7 +24,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/login/**", "/css/**", "/js/**", "/images/**", "/assets2/**", "/register", "/find","/api/login", "/user", "/submit", "/register/**").permitAll() // 로그인 및 정적 리소스 허용
+                        .requestMatchers("/login", "/login/**", "/css/**", "/js/**", "/images/**", "/assets2/**", "/register", "/find/**","/api/login", "/user", "/submit", "/register/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // 로그인 및 정적 리소스 허용
 
                         .requestMatchers("/home/**", "/admin/**", "/outgoing/**", "/transit/**", "/inventory/**", "/order/**", "/board/**", "/incoming/**","/notice/**","/reply/**", "/profile/**").authenticated() // 인증된 사용자만 허용
                         .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요

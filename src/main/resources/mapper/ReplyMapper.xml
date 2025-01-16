@@ -5,26 +5,26 @@
 
     <insert id="insertReply" parameterType="com.example.santa.reply.vo.ReplyVO"
             keyProperty="replyId">
-        INSERT INTO reply (board_id, author_id, content)
+        INSERT INTO reply (boardId, authorId, content)
         VALUES (#{boardId}, #{authorId}, #{content})
     </insert>
 
 
     <!-- 댓글 수정 -->
     <update id="updateReply" parameterType="com.example.santa.reply.vo.ReplyVO">
-        UPDATE reply SET content = #{content} WHERE reply_id = #{replyId}
+        UPDATE reply SET content = #{content} WHEREreplyId = #{replyId}
     </update>
 
 
     <!-- 댓글 삭제 -->
     <delete id="deleteReply" parameterType="int">
-        DELETE FROM reply WHERE reply_id = #{replyId}
+        DELETE FROM reply WHERE replyId = #{replyId}
     </delete>
 
     <!-- 특정 게시글에 속한 모든 댓글 조회 -->
     <select id="selectReplyByBoardId" parameterType="int"
             resultMap="replyVO2">
-        SELECT * FROM reply WHERE board_id = #{boardId} ORDER BY reply_id ASC
+        SELECT * FROM reply WHERE boardId = #{boardId} ORDER BY replyId ASC
     </select>
 
 

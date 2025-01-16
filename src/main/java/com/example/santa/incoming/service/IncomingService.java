@@ -10,9 +10,10 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class IncomingService {
+public class IncomingService implements IncomingServiceInterface {
     private final IncomingMapper incomingMapper;
 
+    @Override
     public List<IncomingDTO> selectAllIncoming() {
 
         List<IncomingDTO> list = incomingMapper.selectAllIncoming();
@@ -21,11 +22,13 @@ public class IncomingService {
     }
 
     // 상품명별 입고 조회
+    @Override
     public List<IncomingDTO> selectAllIncomingByProductName(String productName) {
         return incomingMapper.selectAllIncomingByProductName(productName);
     }
 
     // 입고 일자별 입고 조회
+    @Override
     public List<IncomingDTO> selectAllIncomingByIncomingDate(String date1, String date2) {
         return incomingMapper.selectAllIncomingByIncomingDate(date1, date2);
     }

@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.santa.board.mapper.BoardMapper">
-            <!--게시글 삽입-->
+    <!--게시글 삽입-->
     <insert id="insertBoard" parameterType="com.example.santa.board.vo.BoardVO">
-        INSERT INTO board (board_id, board_type, author_id, title, content, created_at, updated_at)
+        INSERT INTO board (boardId, boardType, authorId, title, content, createdAt, updatedAt)
         VALUES (#{boardId}, #{boardType}, #{authorId}, #{title}, #{content}, #{createdAt}, #{updatedAt})
     </insert>
-             <!--        게시글 업데이트   -->
+    <!--        게시글 업데이트   -->
     <update id="updateBoard" parameterType="com.example.santa.board.vo.BoardVO">
         UPDATE board
-        SET board_type = #{boardType},
-            author_id = #{authorId},
+        SET boardType = #{boardType},
+            authorId = #{authorId},
             title = #{title},
             content = #{content},
-            created_at = #{createdAt},
-            updated_at = #{updatedAt}
-        WHERE board_id = #{boardId}
+            createdAt = #{createdAt},
+            updatedAt = #{updatedAt}
+        WHERE boardId = #{boardId}
 
     </update>
-<!--    특정번호로 게시글 삭제     -->
+    <!--    특정번호로 게시글 삭제     -->
     <delete id="deleteBoard" parameterType="int">
         DELETE FROM board
-        WHERE board_id = #{boardId}
+        WHERE boardId = #{boardId}
     </delete>
 
-<!--게시판 하나 검색-->
+    <!--게시판 하나 검색-->
     <select id="selectById"
             parameterType="int"
             resultMap="boardVO2">
-        SELECT board_id, board_type, author_id, title, content, created_at, updated_at
+        SELECT boardId, boardType, authorId, title, content, createdAt, updatedAt
         FROM board
-        WHERE board_id = #{boardId}
+        WHERE boardId = #{boardId}
     </select>
-            <!--게시판 목록검색 -->
+    <!--게시판 목록검색 -->
     <select id="selectBoardAll"
             resultMap="boardVO2"
-            >
-        SELECT board_id, board_type, author_id, title, content, created_at, updated_at
+    >
+        SELECT boardId, boardType, authorId, title, content, createdAt, updatedAt
         FROM board
-        ORDER BY board_id DESC
+        ORDER BY boardId DESC
         <!-- 내림차순으로 정렬해야 최신 게시물이 맨 위로 온다. -->
     </select>
 
 
 
     <resultMap id="boardVO2" type="com.example.santa.board.vo.BoardVO">
-        <result column="board_id" property="boardId"/>
-        <result column="board_type" property="boardType"></result>
+        <result column="boardId" property="boardId"/>
+        <result column="boardType" property="boardType"></result>
         <result column="title" property="title"></result>
         <result column="content" property="content"></result>
-        <result column="author_id" property="authorId"></result>
-        <result column="created_at" property="createdAt"></result>
-        <result column="updated_at" property="updatedAt"></result>
+        <result column="authorId" property="authorId"></result>
+        <result column="createdAt" property="createdAt"></result>
+        <result column="updatedAt" property="updatedAt"></result>
     </resultMap>
 </mapper>

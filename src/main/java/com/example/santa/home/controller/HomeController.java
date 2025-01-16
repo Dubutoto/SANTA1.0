@@ -1,3 +1,4 @@
+/*
 package com.example.santa.home.controller;
 
 import org.springframework.stereotype.Controller;
@@ -11,3 +12,4 @@ public class HomeController {
         return "home/home"; // home.html 파일을 렌더링
     }
 }
+*/
