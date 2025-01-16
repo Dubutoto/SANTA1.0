@@ -3,7 +3,8 @@ package com.example.santa.transit.service;
 import com.example.santa.transit.mapper.TransitMapper;
 import com.example.santa.transit.vo.TransitDTO;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,8 +31,9 @@ public class TransitService implements TransitServiceInterface {
         transitMapper.updateTransitStatusRejection(transitIds);
     }
 
+    @Scheduled(cron = "0 0 11 * * *")
     @Override
-    public List<TransitDTO> getCoordinatesForTransits(List<Integer> transitIds) {
-        return transitMapper.getCoordinatesForTransit(transitIds);
+    public void updateTransitSchedule(List<Integer> transitIds) {
+        transitMapper.updateTransitStatus(transitIds);
     }
 }
