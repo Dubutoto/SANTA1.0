@@ -38,6 +38,16 @@
         </foreach>
     </update>
 
+    <update id="updateTransitSchedule">
+        UPDATE  Transit
+        SET status = '배송중'
+        WHERE status = '배송승인'
+        <foreach item="id" collection="transitIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
+    </update>
+
     <!--전체 출고 조회-->
     <select id="findAllTransit"
             parameterType="string"
@@ -79,5 +89,7 @@
             #{id}
         </foreach>
     </select>
+
+
 
 </mapper>
